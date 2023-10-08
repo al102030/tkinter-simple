@@ -12,8 +12,8 @@ def signUp():
             with connect(
                 host = '127.0.0.1',
                 username = 'root',
-                passwd = '',
-                database = 'tkdb'
+                passwd = 'n123',
+                database = 'acc'
                 ) as connection:
                 insert_query = '''
                                 INSERT INTO uandp
@@ -42,8 +42,8 @@ def signIn():
                 with connect(
                         host = '127.0.0.1',
                         username = 'root',
-                        passwd = '',
-                        database = 'tkdb'
+                        passwd = 'n123',
+                        database = 'acc'
                         ) as connection:
                         update_query = '''
                                     UPDATE uandp
@@ -60,26 +60,36 @@ def signIn():
             
     def delete():
         delete_password = ent_dpass.get()
-        ent_dpass.delete(0,END)  
-        info = (username,)
-        if delete_password == password:
-            try:
-                with connect(
-                        host = '127.0.0.1',
-                        username = 'root',
-                        passwd = '',
-                        database = 'tkdb'
-                        ) as connection:
-                        delete_query = '''
-                                        DELETE FROM uandp WHERE username = %s
-                                        '''
-                        with connection.cursor() as mycursor:
-                            mycursor.execute(delete_query,info)
-                            connection.commit()
-                            lbl_wlc3.config(text='Your account has been successfully deleted.')
-        
-            except Error as e:
-                print(e)             
+        ent_dpass.delete(0,END) 
+        info1 = (username, delete_password) 
+        info2 = (username,)
+        try:
+            with connect(
+                    host = '127.0.0.1',
+                    username = 'root',
+                    passwd = 'n123',
+                    database = 'acc'
+                    ) as connection:
+                    select_query = '''
+                                    SELECT * FROM uandp WHERE username = %s AND passwd = %s
+                                   '''
+                    with connection.cursor() as mycursor:
+                        mycursor.execute(select_query, info1)
+                        data = mycursor.fetchall()
+                    try:
+                        if delete_password == data[0][1]:
+                            delete_query = '''
+                                            DELETE FROM uandp WHERE username = %s
+                                            '''
+                            with connection.cursor() as mycursor:
+                                mycursor.execute(delete_query,info2)
+                                connection.commit()
+                                lbl_wlc3.config(text='Your account has been successfully deleted.')
+                    except:
+                        lbl_wlc3.config(text='Wrong password! Try again.')
+    
+        except Error as e:
+            print(e)             
   
     username = ent_user.get()
     password = ent_pass.get()
@@ -90,8 +100,8 @@ def signIn():
             with connect(
                 host = '127.0.0.1',
                 username = 'root',
-                passwd = '',
-                database = 'tkdb'
+                passwd = 'n123',
+                database = 'acc'
                 ) as connection:
                 select_query = '''
                                SELECT * FROM uandp
@@ -151,7 +161,7 @@ try:
     with connect(
         host = 'localhost',
         username = 'root',
-        passwd = ''
+        passwd = 'n123'
         ) as connection:
         create_db = 'CREATE DATABASE IF NOT EXISTS acc'
         create_table = '''CREATE TABLE IF NOT EXISTS uandp
@@ -161,7 +171,7 @@ try:
                         )'''
         with connection.cursor() as mycursor:
             mycursor.execute(create_db)
-            connection.connect(database = 'tkdb')
+            connection.connect(database = 'acc')
             mycursor.execute(create_table)
 except Error as e:
     print(e)                            
