@@ -12,8 +12,8 @@ def signUp():
             with connect(
                 host = '127.0.0.1',
                 username = 'root',
-                passwd = '@A12785152322s',
-                database = 'acc'
+                passwd = '',
+                database = 'tkdb'
                 ) as connection:
                 insert_query = '''
                                 INSERT INTO uandp
@@ -42,8 +42,8 @@ def signIn():
                 with connect(
                         host = '127.0.0.1',
                         username = 'root',
-                        passwd = '@A12785152322s',
-                        database = 'acc'
+                        passwd = '',
+                        database = 'tkdb'
                         ) as connection:
                         update_query = '''
                                     UPDATE uandp
@@ -67,8 +67,8 @@ def signIn():
             with connect(
                     host = '127.0.0.1',
                     username = 'root',
-                    passwd = '@A12785152322s',
-                    database = 'acc'
+                    passwd = '',
+                    database = 'tkdb'
                     ) as connection:
                     select_query = '''
                                     SELECT * FROM uandp WHERE username = %s AND passwd = %s
@@ -100,8 +100,8 @@ def signIn():
             with connect(
                 host = '127.0.0.1',
                 username = 'root',
-                passwd = '@A12785152322s',
-                database = 'acc'
+                passwd = '',
+                database = 'tkdb'
                 ) as connection:
                 select_query = '''
                                SELECT * FROM uandp
@@ -162,7 +162,7 @@ try:
     with connect(
         host = 'localhost',
         username = 'root',
-        passwd = '@A12785152322s'
+        passwd = ''
         ) as connection:
         create_db = 'CREATE DATABASE IF NOT EXISTS acc'
         create_table = '''CREATE TABLE IF NOT EXISTS uandp
@@ -172,7 +172,7 @@ try:
                         )'''
         with connection.cursor() as mycursor:
             mycursor.execute(create_db)
-            connection.connect(database = 'acc')
+            connection.connect(database = 'tkdb')
             mycursor.execute(create_table)
 except Error as e:
     print(e)                            
